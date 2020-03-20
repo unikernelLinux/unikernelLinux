@@ -1,0 +1,16 @@
+[submodule "ukl"]
+	path = ukl
+	url = git@github.com:razaaliraza/ukl.git
+	branch = devel-memcached
+[submodule "linux"]
+	path = linux
+	url = git@github.com:razaaliraza/linux.git
+	branch = devel-memcached
+[submodule "min-initrd"]
+	path = min-initrd
+	url = git@github.com:razaaliraza/min-initrd.git
+	branch = master
+[submodule "build-glibc"]
+	path = build-glibc
+	url = git@github.com:razaaliraza/build-glibc.git
+	branch = master
