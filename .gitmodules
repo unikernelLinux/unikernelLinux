@@ -14,3 +14,9 @@
 	path = build-glibc
 	url = git@github.com:razaaliraza/build-glibc.git
 	branch = master
+[submodule "Linux-Configs"]
+	path = Linux-Configs
+	url = git@github.com:unikernelLinux/Linux-Configs.git
+[submodule "glibc"]
+	path = glibc
+	url = git@github.com:unikernelLinux/glibc.git
