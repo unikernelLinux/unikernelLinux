@@ -87,7 +87,7 @@ gcc-build-cpp: gcc
 	cd $@; \
 	  TARGET=x86_64-elf ../gcc/configure --target=$(TARGET) \
 	  --disable-shared --disable-nls --enable-languages=c,c++ --without-headers \
-	  --prefix=/home/tommyu/localInstall/gcc-install/ \
+	  --prefix=/mnt/unikernelLinux/gcc-install/ \
 	  --with-multilib-list=m64 --disable-multilib
 	make -C $@ all-gcc $(PARALLEL)
 
@@ -97,19 +97,19 @@ gcc-build-cpp: gcc
 # Double check everything that could finish did by removing parallelism
 	- make -C $@ all-target-libgcc CFLAGS_FOR_TARGET='-g -O2 -mno-red-zone -mcmodel=kernel'
 
-	- make -C $@ all-target-libstdc++-v3 CFLAGS_FOR_TARGET='-g -O2 -mcmodel=kernel -mno-red-zone' $(PARALLEL)
-	- make -C $@ all-target-libstdc++-v3 CFLAGS_FOR_TARGET='-g -O2 -mcmodel=kernel -mno-red-zone'
+	- make -C $@ all-target-libstdc++-v3 CFLAGS_FOR_TARGET='-g -O2 -mcmodel=kernel -mno-red-zone' CXXFLAGS_FOR_TARGET='-g -O2 -mcmodel=kernel -mno-red-zone' $(PARALLEL)
+	- make -C $@ all-target-libstdc++-v3 CFLAGS_FOR_TARGET='-g -O2 -mcmodel=kernel -mno-red-zone' CXXFLAGS_FOR_TARGET='-g -O2 -mcmodel=kernel -mno-red-zone'
 
 # Flip pic flag
 	sed -i 's/PICFLAG/DISABLED_PICFLAG/g' $@/x86_64-pc-linux-gnu/libgcc/Makefile
 
 # Think this is supposed to succede, but it fails.
-	make -C $@ all-target-libgcc CFLAGS_FOR_TARGET='-g -O2 -mcmodel=kernel -mno-red-zone -mcmodel=kernel'
-	make -C $@ all-target-libstdc++-v3 CFLAGS_FOR_TARGET='-g -O2 -mcmodel=kernel -mno-red-zone' $(PARALLEL)
+	make -C $@ all-target-libgcc CFLAGS_FOR_TARGET='-g -O2 -mcmodel=kernel -mno-red-zone'
+	make -C $@ all-target-libstdc++-v3 CFLAGS_FOR_TARGET='-g -O2 -mcmodel=kernel -mno-red-zone' CXXFLAGS_FOR_TARGET='-g -O2 -mcmodel=kernel -mno-red-zone' 
 
 	- make -C $@ install-gcc $(PARALLEL)
 	- make -C $@ install-target-libgcc $(PARALLEL)
-	- make -C $@ install-target-libstdc++-v3
+	- make -C $@ install-target-libstdc++-v3 $(PARALLEL)
 
 gcc-clean:
 	rm -rf gcc-build gcc-install gcc-build-large gcc-build-cpp
